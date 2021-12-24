@@ -7,3 +7,9 @@
 ```
 g++ -g ./lab1.cpp -o ./lab1 -framework OpenGL -framework GLUT
 ```
+
+## Run
+
+```
+./lab1
+```
