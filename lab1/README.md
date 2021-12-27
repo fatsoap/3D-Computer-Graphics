@@ -55,3 +55,9 @@ g++ -g ./lab1.cpp -o ./lab1 -framework OpenGL -framework GLUT
 7. 結束程式(q):
 
    - 關閉視窗，並且結束程式
+
+## Reference
+
+1. 上課筆記
+
+2. [八點畫圓法 https://www.uj5u.com/qita/3816.html](https://www.uj5u.com/qita/3816.html)
