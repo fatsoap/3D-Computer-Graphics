@@ -76,6 +76,6 @@ g++ -g ./lab2.cpp -o ./lab2 -framework OpenGL -framework GLUT
 
 1. 上課筆記
 
-2. http://www.piegl.com/Team_Benjamin_Pres.pdf
+2. [Introduction to Computer Graphics : Two-dimensional viewing](http://www.piegl.com/Team_Benjamin_Pres.pdf)
 
-3. https://www.youtube.com/watch?v=aZhQyqo9N6A
+3. [Sutherland-Hodgman Polygon Clipping Youtube](https://www.youtube.com/watch?v=aZhQyqo9N6A)
