@@ -1,6 +1,9 @@
 #define GL_SILENCE_DEPRECATION
 #include <GLUT/glut.h>
 #include <OpenGL/gl.h>
+// TODO: replace glut package
+// #include <GL/glut.h>
+// #include <GL/gl.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
