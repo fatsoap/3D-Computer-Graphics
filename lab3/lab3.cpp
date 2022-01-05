@@ -1,9 +1,5 @@
-#define GL_SILENCE_DEPRECATION
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
-// TODO: replace glut package
-// #include <GL/glut.h>
-// #include <GL/gl.h>
+#include <GL/glut.h>
+#include <GL/gl.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -18,6 +14,7 @@ int cmd_top = 0;
 int WINDOW_HEIGHT = 0, WINDOW_WIDTH = 0;
 float Hither = 0, Yon = 0, Hav = 0;
 float AR, VL, VR, VB, VT;
+float M_PI = 3.14159265359;
 vector<string> cmds;
 
 float transformation_matrix[4][4] = {
@@ -92,7 +89,7 @@ vector<pair<float, float> > polygon_clip(vector<pair<float, float> > points, flo
 
 void display() {
     if (pause) {
-        system("read -p 'Press Enter to continue...' var");
+        system("pause");
     }
     parseCommand();
     // set bg color
@@ -279,8 +276,8 @@ void handleObserver(float ex, float ey, float ez, float cx, float cy, float cz, 
         grm[2][0]=v3[0];    grm[2][1]=v3[1];    grm[2][2]=v3[2];
 
         // Print GRM
-        cout<<"GRM\n";
-        printMatrix(grm);
+        // cout<<"GRM\n";
+        // printMatrix(grm);
     }
     {   // Tilt Martix
         float tilt_z = (-tilt * 2 * M_PI / 360.0);
@@ -288,8 +285,8 @@ void handleObserver(float ex, float ey, float ez, float cx, float cy, float cz, 
         tilt_m[1][0] = sin(tilt_z), tilt_m[1][1] = cos(tilt_z);
 
         // Print Tilt Matrix
-        cout<<"Tilt\n";
-        printMatrix(tilt_m);
+        // cout<<"Tilt\n";
+        // printMatrix(tilt_m);
     }
 
     // Calculate EM
@@ -299,8 +296,8 @@ void handleObserver(float ex, float ey, float ez, float cx, float cy, float cz, 
     matrixCalculate(eye_matrix, tilt_m);
 
     // Print EM
-    cout<<"EM\n";
-    printMatrix(eye_matrix);
+    // cout<<"EM\n";
+    // printMatrix(eye_matrix);
 
     // Save Params For PM
     Hither = hither, Yon = yon, Hav = hav;
@@ -317,8 +314,8 @@ void handleScale(float x, float y, float z) {
     matrixCalculate(transformation_matrix, sc);
 
     // Print Result Matrix
-    cout<<"Scale\n";
-    printMatrix(transformation_matrix);
+    // cout<<"Scale\n";
+    // printMatrix(transformation_matrix);
 }
 
 void handleRotate(float x, float y, float z) {
@@ -352,8 +349,8 @@ void handleRotate(float x, float y, float z) {
     if (y) matrixCalculate(transformation_matrix, rotate_matrix_y);
 
     // Print Result Martix
-    cout<<"Rotate\n";
-    printMatrix(transformation_matrix);
+    // cout<<"Rotate\n";
+    // printMatrix(transformation_matrix);
 }
 
 void handleTranslate(float x, float y, float z) {
@@ -367,8 +364,8 @@ void handleTranslate(float x, float y, float z) {
     matrixCalculate(transformation_matrix, translate_matrix);
 
     // Print Result Matrix
-    cout<<"Translate\n";
-    printMatrix(transformation_matrix);
+    // cout<<"Translate\n";
+    // printMatrix(transformation_matrix);
 }
 
 void handleView(float vxl, float vxr, float vyb, float vyt) {
@@ -387,8 +384,8 @@ void handlePM() {
     projection_matrix[3][2] = tan(hav);
     projection_matrix[3][3] = 0;
 
-    cout<<"PM\n";
-    printMatrix(projection_matrix);
+    // cout<<"PM\n";
+    // printMatrix(projection_matrix);
 }
 
 void handleWM() {
@@ -419,8 +416,8 @@ void handleWM() {
     matrixCalculate(window_viewport_matrix, sc);
     matrixCalculate(window_viewport_matrix, t2);
 
-    cout<<"WVM\n";
-    printMatrix(window_viewport_matrix);
+    // cout<<"WVM\n";
+    // printMatrix(window_viewport_matrix);
 }
 
 pair<float, float> getMid(pair<float, float> pa, pair<float, float> pb, pair<float, float> bd) {
@@ -556,13 +553,12 @@ void handleReset() {
 
 void handleDisplay() {
 
-    cout<< "Display\n";
+    // cout<< "Display\n";
     screen.clear();
     // PM calculate
     handlePM();
     // WM calculate
     handleWM();
-
     for(int k=0; k<objects.size(); k++) {
         for(int i=0; i<objects[k].points.size(); i++) {
             float tmp[4] = { objects[k].points[i][0], objects[k].points[i][1], objects[k].points[i][2], 1 };
@@ -585,7 +581,7 @@ void handleDisplay() {
             // Backfaces
             if (backfaces) {
                 vector<float> av, bv;
-                for(int j=0; j<4; j++) {
+                for(int j=0; j<3; j++) {
                     av.push_back(objects[k].new_points[objects[k].polygons[i][1]-1][j] - objects[k].new_points[objects[k].polygons[i][0]-1][j]);
                     bv.push_back(objects[k].new_points[objects[k].polygons[i][2]-1][j] - objects[k].new_points[objects[k].polygons[i][1]-1][j]);
                 } 
@@ -599,7 +595,6 @@ void handleDisplay() {
             for(int j=0; j<objects[k].polygons[i].size(); j++) {
                 p.push_back(make_pair(objects[k].new_points[objects[k].polygons[i][j]-1][0], objects[k].new_points[objects[k].polygons[i][j]-1][1]));
             }
-
             screen.push_back(p);
         }
     }
@@ -634,6 +629,7 @@ void parseCommand() {
         params.push_back(param);
     }
     pause = false;
+    cout << cmd << endl;
     if (cmd == "scale") {
         handleScale(params[0], params[1], params[2]);
     } else if (cmd == "rotate") {
@@ -662,7 +658,7 @@ void parseCommand() {
 
 int main(int argc, char** argv) {
     // TODO replace to system("pause")
-    system("read -p 'Press Enter to continue...' var");
+    system("pause");
     if (argc != 2) {
         return 0;
     }
