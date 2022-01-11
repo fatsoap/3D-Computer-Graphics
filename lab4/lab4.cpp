@@ -132,8 +132,6 @@ void display() {
         for (int x = vxl; x < vxr; x++) {
             glColor3f(screen_color[y][x][0], screen_color[y][x][1], screen_color[y][x][2]);
             glVertex2i(x, y);
-            // cout<<screen_color[y][x][0] << " " << screen_color[y][x][1] << " " << screen_color[y][x][2] << endl;
-            // cout<< x << " " << y << endl;
         }
     }
     glEnd(); 
@@ -323,8 +321,8 @@ void handleObserver(float ex, float ey, float ez, float cx, float cy, float cz, 
         grm[2][0]=v3[0];    grm[2][1]=v3[1];    grm[2][2]=v3[2];
 
         // Print GRM
-        cout<<"GRM\n";
-        printMatrix(grm);
+        // cout<<"GRM\n";
+        // printMatrix(grm);
     }
     {   // Tilt Martix
         float tilt_z = (-tilt * 2 * M_PI / 360.0);
@@ -332,8 +330,8 @@ void handleObserver(float ex, float ey, float ez, float cx, float cy, float cz, 
         tilt_m[1][0] = sin(tilt_z), tilt_m[1][1] = cos(tilt_z);
 
         // Print Tilt Matrix
-        cout<<"Tilt\n";
-        printMatrix(tilt_m);
+        // cout<<"Tilt\n";
+        // printMatrix(tilt_m);
     }
 
     // Calculate EM
@@ -343,8 +341,8 @@ void handleObserver(float ex, float ey, float ez, float cx, float cy, float cz, 
     matrixCalculate(eye_matrix, tilt_m);
 
     // Print EM
-    cout<<"EM\n";
-    printMatrix(eye_matrix);
+    // cout<<"EM\n";
+    // printMatrix(eye_matrix);
 
     // Save Params For PM
     Hither = hither, Yon = yon, Hav = hav;
@@ -362,8 +360,8 @@ void handleScale(float x, float y, float z) {
     matrixCalculate(transformation_matrix, sc);
 
     // Print Result Matrix
-    cout<<"Scale\n";
-    printMatrix(transformation_matrix);
+    // cout<<"Scale\n";
+    // printMatrix(transformation_matrix);
 }
 
 void handleRotate(float x, float y, float z) {
@@ -397,8 +395,8 @@ void handleRotate(float x, float y, float z) {
     if (y) matrixCalculate(transformation_matrix, rotate_matrix_y);
 
     // Print Result Martix
-    cout<<"Rotate\n";
-    printMatrix(transformation_matrix);
+    // cout<<"Rotate\n";
+    // printMatrix(transformation_matrix);
 }
 
 void handleTranslate(float x, float y, float z) {
@@ -412,8 +410,8 @@ void handleTranslate(float x, float y, float z) {
     matrixCalculate(transformation_matrix, translate_matrix);
 
     // Print Result Matrix
-    cout<<"Translate\n";
-    printMatrix(transformation_matrix);
+    // cout<<"Translate\n";
+    // printMatrix(transformation_matrix);
 }
 
 void handleView(float vxl, float vxr, float vyb, float vyt) {
@@ -432,8 +430,8 @@ void handlePM() {
     projection_matrix[3][2] = tan(hav);
     projection_matrix[3][3] = 0;
 
-    cout<<"PM\n";
-    printMatrix(projection_matrix);
+    // cout<<"PM\n";
+    // printMatrix(projection_matrix);
 }
 
 void handleWM() {
@@ -464,8 +462,8 @@ void handleWM() {
     matrixCalculate(window_viewport_matrix, sc);
     matrixCalculate(window_viewport_matrix, t2);
 
-    cout<<"WVM\n";
-    printMatrix(window_viewport_matrix);
+    // cout<<"WVM\n";
+    // printMatrix(window_viewport_matrix);
 }
 
 pair<float, float> getMid(pair<float, float> pa, pair<float, float> pb, pair<float, float> bd) {
@@ -774,9 +772,7 @@ void parseCommand() {
     vector<float> params;
     while(iss >> param) {
         params.push_back(param);
-        cout<<param<<"===\n";
     }
-    cout<<line<<endl;
     pause = false;
     if (cmd == "scale") {
         handleScale(params[0], params[1], params[2]);
