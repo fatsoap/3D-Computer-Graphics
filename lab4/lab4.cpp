@@ -631,6 +631,8 @@ void flatShading() {
                 Ib += objects[i].kd * lights[k].Ipb * NL * objects[i].b + objects[i].ks * lights[k].Ipb * HNn;
             }
             float c[3] = {Ir, Ig, Ib};
+
+            objects[i].new_r.clear(); objects[i].new_g.clear(); objects[i].new_b.clear();
             objects[i].new_r.push_back(Ir); objects[i].new_g.push_back(Ig); objects[i].new_b.push_back(Ib);
         }
     }
@@ -713,7 +715,8 @@ void handleDisplay() {
         // }
 
         for(int i=0; i<objects[k].polygons.size(); i++) {
-            float min_y = numeric_limits<float>::max(), max_y = numeric_limits<float>::min(), min_x = min_y, max_x = max_y;
+            float min_y = numeric_limits<float>::max(), max_y = numeric_limits<float>::min();
+            float min_x = numeric_limits<float>::max(), max_x = numeric_limits<float>::min();
 
             // Get max & min xy
             for(int j=0; j<objects[k].polygons[i].size(); j++) {
@@ -733,7 +736,7 @@ void handleDisplay() {
                     objects[k].new_points[poly[1]-1]));
             normalized(nor);
             float D = -(nor[0] * objects[k].new_points[poly[0]-1][0] + nor[1] * objects[k].new_points[poly[0]-1][1] + nor[2] * objects[k].new_points[poly[0]-1][2]);
-            for(int y = trunc(min_y); y != ceil(max_y); y ++) {
+            for(int y = trunc(min_y); y != ceil(max_y); y++) {
                 int x = trunc(min_x), x_max = ceil(max_x);
                 for(float z = -(nor[0] * x + nor[1] * y + D) / nor[2]; x != x_max; x++, z-= nor[0] / nor[2]) {
                     if(z < screen_z[y][x] && is_in_poly(x, y, k, i, nor[2])) {
