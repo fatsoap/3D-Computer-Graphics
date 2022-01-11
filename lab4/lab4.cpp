@@ -631,8 +631,6 @@ void flatShading() {
                 Ib += objects[i].kd * lights[k].Ipb * NL * objects[i].b + objects[i].ks * lights[k].Ipb * HNn;
             }
             float c[3] = {Ir, Ig, Ib};
-
-            objects[i].new_r.clear(); objects[i].new_g.clear(); objects[i].new_b.clear();
             objects[i].new_r.push_back(Ir); objects[i].new_g.push_back(Ig); objects[i].new_b.push_back(Ib);
         }
     }
