@@ -271,6 +271,7 @@ void handleObject(string obj_name, float r, float g, float b, float d, float s, 
             vector<int> p;
             for(int j=0; j<num; j++) {
                 iss >> tmp;
+                // TODO: tmp-1
                 p.push_back(tmp);
             }
             new_object.polygons.push_back(p);
@@ -795,7 +796,7 @@ void parseCommand() {
     } else if (cmd == "background") {
         handleBackground(params[0], params[1], params[2]);
     } else if (cmd == "light") {
-        handleLight(params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
+        handleLight(params[0]-1, params[1], params[2], params[3], params[4], params[5], params[6]);
     } else if (cmd == "reset") {
         handleReset();
     } else if (cmd == "end") {
