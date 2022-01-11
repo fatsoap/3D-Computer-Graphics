@@ -609,12 +609,16 @@ void flatShading() {
                     objects[i].points[poly[0]-1]),
                 minus_v(objects[i].points[poly[2]-1], 
                     objects[i].points[poly[1]-1]));
+            for(int ij=0; ij<3; ij++) {
+                nor[ij] = - nor[ij];
+            }
+            normalized(nor);
             float Ir = KaIar * objects[i].r, Ig = KaIag * objects[i].g, Ib = KaIab * objects[i].b;
             for(int k=0; k<lights.size(); k++) {
                 vector<float> L = minus_v(lights[k].pos, objects[i].points[poly[0]-1]);
                 vector<float> H = minus_v(eye, objects[i].points[poly[0]-1]);
                 H[0] += L[0], H[1] += L[1], H[2] += L[2];
-                normalized(nor);
+                
                 normalized(H);
                 normalized(L);
                 float NL = product_v(nor, L);
@@ -687,7 +691,27 @@ void handleDisplay() {
             objects[k].new_points[i][0] = tmp[0];
             objects[k].new_points[i][1] = tmp[1];
             objects[k].new_points[i][2] = tmp[2];
+            objects[k].new_points[i][3] = tmp[3];
         }
+
+        // for(int i=0; i<objects[k].polygons.size(); i++) {
+        //     // Backfaces
+        //     vector<float> av, bv;
+        //     for(int j=0; j<3; j++) {
+        //         av.push_back(objects[k].new_points[objects[k].polygons[i][1]-1][j] - objects[k].new_points[objects[k].polygons[i][0]-1][j]);
+        //         bv.push_back(objects[k].new_points[objects[k].polygons[i][2]-1][j] - objects[k].new_points[objects[k].polygons[i][1]-1][j]);
+        //     } 
+        //     vector<float> bk = cross(av, bv);
+        //     if(bk[2] >= 0) {
+        //         continue;
+        //     }
+        //     vector<pair<float, float> > p;
+        //     for(int j=0; j<objects[k].polygons[i].size(); j++) {
+        //         p.push_back(make_pair(objects[k].new_points[objects[k].polygons[i][j]-1][0], objects[k].new_points[objects[k].polygons[i][j]-1][1]));
+        //     }
+        //     screen.push_back(p);
+        // }
+
         for(int i=0; i<objects[k].polygons.size(); i++) {
             float min_y = numeric_limits<float>::max(), max_y = numeric_limits<float>::min(), min_x = min_y, max_x = max_y;
 
