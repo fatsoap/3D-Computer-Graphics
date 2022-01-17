@@ -1,6 +1,5 @@
-#define GL_SILENCE_DEPRECATION
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
+#include <GL/glut.h>
+#include <GL/gl.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -18,6 +17,7 @@ float Ex = 0, Ey = 0, Ez = 0;
 float AR, VL, VR, VB, VT;
 float KaIar, KaIag, KaIab;
 float Br, Bg, Bb;
+float M_PI = 3.14159265359;
 vector<string> cmds;
 
 float transformation_matrix[4][4] = {
@@ -108,7 +108,7 @@ bool is_in_poly (int x, int y, int obj, int py, float nor);
 
 void display() {
     if (pause) {
-        system("read -p 'Press Enter to continue...' var");
+        system("pause");
     }
     parseCommand();
     // set bg color
@@ -687,31 +687,11 @@ void handleDisplay() {
             tmp[1] /= tmp[3];
             tmp[2] /= tmp[3];
             tmp[3] /= tmp[3];
-            
             objects[k].new_points[i][0] = tmp[0];
             objects[k].new_points[i][1] = tmp[1];
             objects[k].new_points[i][2] = tmp[2];
-            objects[k].new_points[i][3] = tmp[3];
+            objects[k].new_points[i].push_back(tmp[3]);
         }
-
-        // for(int i=0; i<objects[k].polygons.size(); i++) {
-        //     // Backfaces
-        //     vector<float> av, bv;
-        //     for(int j=0; j<3; j++) {
-        //         av.push_back(objects[k].new_points[objects[k].polygons[i][1]-1][j] - objects[k].new_points[objects[k].polygons[i][0]-1][j]);
-        //         bv.push_back(objects[k].new_points[objects[k].polygons[i][2]-1][j] - objects[k].new_points[objects[k].polygons[i][1]-1][j]);
-        //     } 
-        //     vector<float> bk = cross(av, bv);
-        //     if(bk[2] >= 0) {
-        //         continue;
-        //     }
-        //     vector<pair<float, float> > p;
-        //     for(int j=0; j<objects[k].polygons[i].size(); j++) {
-        //         p.push_back(make_pair(objects[k].new_points[objects[k].polygons[i][j]-1][0], objects[k].new_points[objects[k].polygons[i][j]-1][1]));
-        //     }
-        //     screen.push_back(p);
-        // }
-
         for(int i=0; i<objects[k].polygons.size(); i++) {
             float min_y = numeric_limits<float>::max(), max_y = numeric_limits<float>::min();
             float min_x = numeric_limits<float>::max(), max_x = numeric_limits<float>::min();
@@ -833,7 +813,7 @@ void parseCommand() {
 
 int main(int argc, char** argv) {
     // TODO replace to system("pause")
-    system("read -p 'Press Enter to continue...' var");
+    system("pause");
     if (argc != 2) {
         return 0;
     }
